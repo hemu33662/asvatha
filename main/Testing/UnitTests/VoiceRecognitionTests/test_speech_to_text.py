@@ -2,12 +2,8 @@ import sys
 import os
 import unittest
 
-# Add the root directory of the project to the Python path
-root_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../../..'))
-sys.path.insert(0, root_path)
-
-# Debugging: Print the sys.path to ensure the root path is included
-print("Python Path:", sys.path)
+# Add the Asvatha root directory to the system path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../..")))
 
 from Core.VoiceRecognition.speech_to_text import convert_speech_to_text
 
