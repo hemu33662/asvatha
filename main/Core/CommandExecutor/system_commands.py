@@ -1,15 +1,41 @@
 import os
-import webbrowser
+import platform
 
-def execute_command(parsed_command):
-    action = parsed_command.get("action")
-    target = parsed_command.get("target")
+def open_application(app_name):
+    """
+    Opens an application based on the OS and application name.
+    """
+    try:
+        if platform.system() == "Windows":
+            os.system(f"start {app_name}")
+        elif platform.system() == "Darwin":  # macOS
+            os.system(f"open -a {app_name}")
+        elif platform.system() == "Linux":
+            os.system(f"{app_name} &")
+        else:
+            print(f"Unsupported OS: {platform.system()}")
+    except Exception as e:
+        print(f"Error opening application: {e}")
 
-    if action == "open":
-        print(f"Opening {target}...")
-        os.system(f"start {target}")  # Adjust for Linux/macOS with 'open'
-    elif action == "search":
-        print(f"Searching for {target}...")
-        webbrowser.open(f"https://www.google.com/search?q={target}")
-    else:
-        print(f"Unknown command: {target}")
+def execute_system_command(command):
+    """
+    Executes system-level commands like shutdown or restart.
+    """
+    try:
+        if platform.system() == "Windows":
+            if command == "shutdown":
+                os.system("shutdown /s /f /t 0")  # Shutdown immediately
+            elif command == "restart":
+                os.system("shutdown /r /f /t 0")  # Restart immediately
+            else:
+                print(f"Unknown system command: {command}")
+        else:
+            # For Linux or macOS
+            if command == "shutdown":
+                os.system("sudo shutdown now")  # Requires sudo for Linux/macOS
+            elif command == "restart":
+                os.system("sudo reboot")  # Requires sudo for Linux/macOS
+            else:
+                print(f"Unknown system command: {command}")
+    except Exception as e:
+        print(f"Error executing system command: {e}")
